@@ -8,16 +8,13 @@
 - **Status:** Reviewed (Swiss-Prot)  
 - **Organism:** Homo sapiens (Human)  
 
-## Project Notes
+## Structure Selection
 
-- André selected the structure **2IMS** from the protein database as the starting point for our analysis.  
-- The choice of the optimal structure is still under review; we will confirm with instructors whether a better structure exists.
-- Took out the water molecules
+- Ema selected the structure **2IMT** from the protein database as the starting point for our analysis.  
+- The choice of the optimal structure was made following the structure selection protocol
 
-**Structure Details (2IMS):**
-
-- **Method:** X-ray diffraction  
-- **Resolution:** 1.48 Å  
-- **R-Value Free:** 0.204 (Depositor), 0.208 (DCC)  
-- **R-Value Work:** 0.179 (Depositor), 0.180 (DCC)  
-- **R-Value Observed:** 0.180 (Depositor)  
+Method: X-RAY DIFFRACTION
+- Resolution: 1.49 Å
+- R-Value Free: 0.220 (Depositor), 0.230 (DCC) 
+- R-Value Work: 0.193 (Depositor), 0.200 (DCC) 
+- R-Value Observed: 0.194 (Depositor) 
