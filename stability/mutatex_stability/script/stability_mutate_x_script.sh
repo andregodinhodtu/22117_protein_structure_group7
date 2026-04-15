@@ -5,10 +5,10 @@
 #SBATCH -t 2:00:00
 # Memory required (4 Gigs)
 #SBATCH --mem=4G
-# Number of cores on the node (1 core)
+# Number of cores on the node
 #SBATCH -c 1
-#SBATCH -o stability_naccess_script.log
-#SBATCH -e stability_naccess_script.err
+#SBATCH -o stability_mutate_x_script.log
+#SBATCH -e stability_mutate_x_script.err
 # Accounting - if necessary
 #SBATCH -A pr_course
 # Here follows the user commands:
@@ -28,17 +28,25 @@ if [ ! -f "$PDB_FILE" ]; then
     exit 1
 fi
 
-# Get protein name by stripping the .pdb extension
 PROTEIN_NAME=$(basename $1 .pdb)
+RESULTS_DIR=$SLURM_SUBMIT_DIR/../results/$PROTEIN_NAME
 
-# Create output folder and move into it
-mkdir -p $PROTEIN_NAME
-cd $PROTEIN_NAME
+mkdir -p $RESULTS_DIR
+cd $RESULTS_DIR
 
 source /home/ctools/anaconda3-2024.10-1/etc/profile.d/conda.sh
 conda activate /home/ctools/protein_structure_course
 
-echo "Running Naccess on $PDB_FILE ..."
-naccess $PDB_FILE
+echo "Running MutateX on $PDB_FILE ..."
 
-echo "done"
+mutatex $PDB_FILE \
+    -p 1 \
+    -m $SLURM_SUBMIT_DIR/mutation_list.txt \
+    -x /home/ctools/foldx/foldx \
+    -f suite5 \
+    -R $SLURM_SUBMIT_DIR/repair_runfile_template.txt \
+    -M $SLURM_SUBMIT_DIR/mutate_runfile_template.txt \
+    -q $SLURM_SUBMIT_DIR/poslist.txt \
+    -L -l -v \
+    -C none
+

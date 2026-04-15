@@ -1,0 +1,62 @@
+Running MutateX on /home/projects/22117_protein_structure/projects/group07/22117_protein_structure_group7/structures/2IMT_no_solvent.pdb ...
+usage: mutatex [-h] [-a] [-u] [-n NRUNS] [-p NP] [-m MUTLIST] [-q POSLIST]
+               [-S] [-s] [-x FOLDX_BINARY] [-b ROTABASE] [-f {suite4,suite5}]
+               [-l] [-R REPAIR_RUNFILE_TEMPLATE] [-M MUTATE_RUNFILE_TEMPLATE]
+               [-I INTERFACE_RUNFILE_TEMPLATE] [-B] [-C {partial,deep,none}]
+               [-c] [-L] [-v]
+               PDBFILE [PDBFILE ...]
+
+mutatex: run in silico saturation mutagenesis with FoldX
+
+positional arguments:
+  PDBFILE               One or more PDB file to run the mutational scan on
+
+options:
+  -h, --help            show this help message and exit
+  -a, --multiple-models
+                        indipendently use multiple models found in the PDB
+  -u, --no-multimers    don't consider multimers when running the mutational
+                        scan
+  -n NRUNS, --nruns NRUNS
+                        number of FoldX mutation runs per mutation (default:
+                        5)
+  -p NP, --np NP        number of FoldX processes to be run at the same time
+                        (default: 1)
+  -m MUTLIST, --mutlist MUTLIST
+                        file containing the residue types that each residue
+                        will be mutated to
+  -q POSLIST, --poslist POSLIST
+                        file containing the list of positions to be considered
+                        (default is all)
+  -S, --skip-repair     skip the repair phase and just use input PDBs for
+                        calculation
+  -s, --self-mutate     ignore mutation list and perform mutation to the same
+                        residue
+  -x FOLDX_BINARY, --foldx-binary FOLDX_BINARY
+                        location of the FoldX binary (default: content of the
+                        FOLDX_BINARY system variable)
+  -b ROTABASE, --rotabase ROTABASE
+                        location of the FoldX rotabase.txt file (default:
+                        content of the FOLDX_ROTABASE system variable)
+  -f {suite4,suite5}, --foldx-version {suite4,suite5}
+                        FoldX version to be used (possible options: suite4,
+                        suite5
+  -l, --foldx-log       write FoldX standard output on file for each run
+  -R REPAIR_RUNFILE_TEMPLATE, --repair-runfile-template REPAIR_RUNFILE_TEMPLATE, --repair REPAIR_RUNFILE_TEMPLATE
+                        template runfile for repair runs (default:
+                        ./repair_runfile_template.txt)
+  -M MUTATE_RUNFILE_TEMPLATE, --mutate-runfile-template MUTATE_RUNFILE_TEMPLATE, --mutate MUTATE_RUNFILE_TEMPLATE
+                        template runfile for mutation runs (default:
+                        ./mutate_runfile_template.txt)
+  -I INTERFACE_RUNFILE_TEMPLATE, --binding-runfile-template INTERFACE_RUNFILE_TEMPLATE, --binding INTERFACE_RUNFILE_TEMPLATE
+                        template runfile for mutation runs (default:
+                        ./interface_runfile_template.txt)
+  -B, --binding-energy  do calculate binding DDG with mutations
+  -C {partial,deep,none}, --clean {partial,deep,none}
+                        clean output directories after calculation (partial,
+                        deep or none)
+  -c, --compress        compress mutations directory to .tar.gz file
+  -L, --use-links       use links instead of copying files as much as
+                        possibile
+  -v, --verbose         toggle verbose mode
+done
