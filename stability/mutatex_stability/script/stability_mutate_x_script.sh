@@ -50,3 +50,13 @@ mutatex $PDB_FILE \
     -L -l -v \
     -C none
 
+echo "Running ddg2excel ..."
+
+ddg2excel \
+    -p $PDB_FILE \
+    -l $SLURM_SUBMIT_DIR/mutation_list.txt \
+    -q $SLURM_SUBMIT_DIR/poslist.txt \
+    -d $RESULTS_DIR/results/mutation_ddgs/${PROTEIN_NAME}_model0_checked_Repair/ \
+    -F csv
+
+echo "done"

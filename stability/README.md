@@ -6,19 +6,6 @@ Gene - BAK1
 
 Assesssment of effects of mutations on STABILITY using MutateX (i.e., FoldX) changes in folding free energies (Lecture 4)
 
-# Domain
-
-Motif		74-88	BH3	
-Motif		117-136	BH1	
-Motif		169-184	BH2
-
-Intact BH3 motif is required by BIK, BID, BAK, BAD and BAX for their pro-apoptotic activity and for their interaction with anti-apoptotic members of the Bcl-2 family.
-
-## Binding site for cofactor
-
-Binding site		160	Zn2+ (UniProtKB | ChEBI); ligand shared between dimeric partners	
-
-Binding site		164	Zn2+ (UniProtKB | ChEBI); ligand shared between dimeric partners
 
 # Important things for mutateX
 
