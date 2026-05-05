@@ -10,7 +10,8 @@
 # Accounting - if necessary
 #SBATCH -A pr_course
 
-cd $SLURM_SUBMIT_DIR
+SCRIPT_DIR=$(dirname $(realpath $0))
+cd $SCRIPT_DIR
 
 if [ -z "$1" ]; then
     echo "Error: no PDB file specified. Usage: sbatch stability_mutate_x_script.sh <filename.pdb>"
@@ -26,7 +27,7 @@ if [ ! -f "$PDB_FILE" ]; then
 fi
 
 PROTEIN_NAME=$(basename $1 .pdb)
-RESULTS_DIR=$SLURM_SUBMIT_DIR/../results/$PROTEIN_NAME
+RESULTS_DIR=$SCRIPT_DIR/../results/$PROTEIN_NAME
 
 mkdir -p $RESULTS_DIR
 cd $RESULTS_DIR
@@ -38,14 +39,13 @@ echo "Running MutateX on $PDB_FILE ..."
 
 mutatex $PDB_FILE \
     -p 4 \
-    -m $SLURM_SUBMIT_DIR/mutation_list.txt \
+    -m $SCRIPT_DIR/mutation_list.txt \
     -x /home/ctools/foldx/foldx \
     -f suite5 \
-    -R $SLURM_SUBMIT_DIR/repair_runfile_template.txt \
-    -M $SLURM_SUBMIT_DIR/mutate_runfile_template.txt \
-    -q $SLURM_SUBMIT_DIR/poslist.txt \
+    -R $SCRIPT_DIR/repair_runfile_template.txt \
+    -M $SCRIPT_DIR/mutate_runfile_template.txt \
+    -q $SCRIPT_DIR/poslist.txt \
     -L -l -v \
     -C deep
 
 # -C option can be deep or none
-

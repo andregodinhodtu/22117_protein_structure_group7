@@ -37,7 +37,7 @@ The file has a tabular format,it is structured in rows (one per residue) and col
 
 We are interested in the column of Total-Side and Relative values (REL) since it provides a percentage estimate of the solvent accessibility of the side chain with respect to the accessibility for that residue type in a tripeptide, in which the residue is surrounded by alanine residue
 
-We can basically undestand if the resideu is burried or in the surface
+We can basically undestand if the residue is burried or in the surface
 
 Example of usage: > grep 270 2XWRA_noHOH.rsa
 
@@ -47,5 +47,32 @@ So typical MutateX command line should look like:
 
 > mutatex -x /home/ctools/foldx/foldx -f suite5 --all --other --option
 
+## MutateX steps and options
 
+### 1) Repair the structure
+FoldX fixes frequent problems in PDB structures such as steric clashes, producing an energy-minimized structure in terms of folding free energy (ΔG). The lower (more negative) the ΔG, the more stable the structure.
+
+Check energy before and after repair — you should observe a decrease:
+```bash
+grep Total repair/repair_2XWRA_noHOH_model0_checked/FoldXrun.log
+```
+
+### 2) Mutation phase
+FoldX performs mutagenesis via the BuildModel function. Each residue in the poslist is mutated to every residue type specified in mutation_list.txt. Results are saved in the `mutations/` folder and aggregated in `results/`.
+
+By default, MutateX runs 5 replicates per mutation to account for rotamer sampling variability. This can be changed with `-n`.
+
+Extract final ΔΔG values into a CSV:
+```bash
+ddg2excel -p 2XWRA_noHOH.pdb -l mutation_list.txt -q poslist.txt \
+  -d results/mutation_ddgs/2XWRA_noHOH_model0_checked_Repair/ -F csv
+```
+
+Output is `energies.csv` — one row per mutation site, one column per mutant residue type. ΔΔG = ΔGmut − ΔGwt. Positive values indicate destabilisation.
+
+### Useful options
+- `-n` — number of runs per mutation (default: 5)
+- `-C deep` — recommended for large scans to save disk space
+- `-c` — compress the mutations folder to `mutations.tar.gz`
+- `-p` — number of CPU cores to use
 
