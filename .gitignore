@@ -1,6 +1,9 @@
 stability/mutatex_stability/results/
 interaction/mutatex_binding
 MD_analyses/
+ensemble_work/
 
 .Rproj.user
 .Rproj
+
+
