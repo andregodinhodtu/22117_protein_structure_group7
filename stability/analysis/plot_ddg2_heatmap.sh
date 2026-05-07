@@ -14,6 +14,9 @@ FINAL_AVERAGES=$MUTATE_X_RUN_DIR/results/final_averages
 MUTATIONS_VAL=$MUTATE_X_RUN_DIR/results/mutation_ddgs/2IMT_clean_model0_checked_Repair
 POS_LIST=$WORKING_DIR/poslist.txt
 
+source /home/ctools/anaconda3-2024.10-1/etc/profile.d/conda.sh
+conda activate /home/ctools/protein_structure_course
+
 # Sanity checks
 for f in "$CHECKED_PDB" "$MUTATION_LIST" "$POS_LIST"; do
     [[ -f "$f" ]] || { echo "Missing file: $f" >&2; exit 1; }
@@ -27,6 +30,6 @@ ddg2heatmap \
     -l "$MUTATION_LIST" \
     -d "$MUTATIONS_VAL" \
     -s 25 \
-    -n -3.0 \
+    -n -2.0 \
     -x 5.0 \
     -q "$POS_LIST"
