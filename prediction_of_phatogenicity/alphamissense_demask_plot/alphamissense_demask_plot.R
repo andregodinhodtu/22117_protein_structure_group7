@@ -4,8 +4,8 @@ library(stringr)
 library(tibble)
 
 # ----- 0. Paths -----
-path_alpha_missense <- "alpha_missense/raw_heatmap_data/AF-Q16611-F1-aa-substitutions.csv"
-path_demask         <- "demask/raw_data/175ddae87fe0fedbff3e.txt"
+path_alpha_missense <- "prediction_of_phatogenicity/alpha_missense/raw_heatmap_data/AF-Q16611-F1-aa-substitutions.csv"
+path_demask         <- "prediction_of_phatogenicity/demask/raw_data/175ddae87fe0fedbff3e.pos_rank.txt"
 
 # ----- 1. Load -----
 df_alpha_missense <- read.csv(path_alpha_missense, stringsAsFactors = FALSE) |>

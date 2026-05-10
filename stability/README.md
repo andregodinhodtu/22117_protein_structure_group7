@@ -1,78 +1,89 @@
-- André Godinho s253707
+# Stability Analysis of BAK1 Using MutateX/FoldX
 
-Q16611 - BAK_HUMAN
-Protein - Bcl-2 homologous antagonist/killer
-Gene - BAK1
+**Student:** André Godinho (`s253707`)  
+**Structure used:** `2IMT`
+
+Positive ΔΔG values indicate destabilizing mutations.
 
 Assesssment of effects of mutations on STABILITY using MutateX (i.e., FoldX) changes in folding free energies (Lecture 4)
 
+---
 
-# Important things for mutateX
+## Repository Structure
 
-0. Make sure that we have no waters and cofactors
+stability/
+├── README.md
+├── analysis/
+│   ├── energies.csv
+│   ├── figures_and_plots/
+│   └── plot_ddg2_*.sh
+├── mutatex_stability/
+│   ├── results/ (Not in git)
+│   │   ├── 2IMT_clean/
+│   │   │   ├── repair/
+│   │   │   ├── results/
+│   │   │   └── mutations/
+│   │   └── 2IMT_clean_model0_checked.pdb
+│   └── script/
+│       ├── summary_ddg2excel.sh
+│       ├── stability_mutate_x_script.sh
+│       ├── mutate_runfile_template.txt
+│       ├── repair_runfile_template.txt
+│       ├── mutation_list.txt
+│       └── poslist.txt
+├── naccess/
+│   ├── results/
+│   │   └── 2IMT_no_solvent.rsa
+│   └── script/
+│       ├── stability_naccess_script.sh
+│       ├── stability_naccess_script.log
+│       └── stability_naccess_script.err
+├── priority_poslist.txt (list priority to run mutate x)
+└── complementary_poslist.txt (not priority to run mutate x)
 
-1. Modifications needed in the input if we have missing residues - solve with AlphaFold
+---
 
-Remember also to check for missing residues in the structure you aim to use. FoldX will not be able to reconstruct missing residues. If there are missing residues, FoldX will try to run the calculation in the presence of missing residues within the structure. As FoldX does not reconstruct missing residues, it performs the calculation on the input structure used. If your candidate structure has missing residues, it is good to reconstruct them, for example, using homology modeling or evaluating if a model from AlphaFold can recapitulate the known experimental structure and use it for your calculations.
+## Workflow
 
-We need to make sure that there are no missing residues in this PDB file, apart from residues in the N- and C-terminal regions which are not a big problem
+1. **Structure Preparation**  
+   - Removed water molecules and cofactors.  
+   - Checked for missing residues; used AlphaFold or homology modeling if needed.  
 
-2. Visual inspection of the mutation sites with PyMOL
+2. **Solvent Accessibility (NACCESS)**  
+   - Calculated which residues are buried or exposed.  
+   - Relative side-chain accessibility used to identify surface vs buried residues.
 
-2.1 Should look into the intresting mutation sites and localize them in PyMOL. 
+3. **Stability Calculations (MutateX/FoldX)**  
+   - **Repaired structure:** Fixed clashes and minimized energy.  
+   - **Mutation modeling:** Introduced mutations at selected positions and calculated ΔΔG.  
+   - **ΔΔG range analyzed:** -2 to 5 kcal/mol  
+   - **CPU cores used:** 4  
 
-- Where are the mutations located on the protein? What does the location in the structure imply? 
+### MutateX/FoldX Options Used
 
-- Identify if there are other residue side chains in contact with the mutation site (less than 4 Å of distance) and which properties they have. Show the residues within 4 Å of each site and reflect on interactions with the mutational site. ( show sticks, residue 120 + residue 181 + residue 270) (navigate through the menu option and select modify -> expand -> residues within 4 Å. This widens the selection to include residues around residue 181)
+| Option | Description |
+|--------|-------------|
+| `-p 4` | Use 4 CPU cores for parallel processing. |
+| `-m mutation_list.txt` | Specifies the list of mutations to introduce. |
+| `-x /path/to/foldx` | Path to the FoldX executable used for calculations. |
+| `-f suite5` | FoldX force field/parameter set. |
+| `-R repair_runfile_template.txt` | Template for repairing PDB structure (removing clashes, fixing side chains). |
+| `-M mutate_runfile_template.txt` | Template for mutation modeling (BuildModel step). |
+| `-q poslist.txt` | List of residue positions to mutate. |
+| `-L` | Log progress for each mutation to monitor long runs. |
+| `-l` | Save all intermediate output files for detailed inspection. |
+| `-v` | Verbose output for detailed process information. |
+| `-C deep` | Deep scan mode for exhaustive rotamer sampling to improve ΔΔG accuracy. |
 
-3. Preparation of a folder to run NACCESS and MutateX on the server
+4. **Analysis and Plots**  
+   - Generated tables of ΔΔG values.  
+   - Created heatmaps, histograms, violin plots, and scatter plots to visualize stability changes.  
+   - Positive ΔΔG → destabilizing mutation  
+   - Negative ΔΔG → stabilizing mutation  
 
-> naccess
+---
 
-usage naccess pdb_file [-p probe_size] [-r vdw_file] [-s stdfile] [-z zslice] -[hwyfaclq]
+## Results
 
-output: 2XWRA_noHOH.rsa
-
-The file has a tabular format,it is structured in rows (one per residue) and columns (different ASA values).
-
-We are interested in the column of Total-Side and Relative values (REL) since it provides a percentage estimate of the solvent accessibility of the side chain with respect to the accessibility for that residue type in a tripeptide, in which the residue is surrounded by alanine residue
-
-We can basically undestand if the residue is burried or in the surface
-
-Example of usage: > grep 270 2XWRA_noHOH.rsa
-
-4. Free energy calculations with MutateX to estimate changes in folding free energy upon mutation
-
-So typical MutateX command line should look like:
-
-> mutatex -x /home/ctools/foldx/foldx -f suite5 --all --other --option
-
-## MutateX steps and options
-
-### 1) Repair the structure
-FoldX fixes frequent problems in PDB structures such as steric clashes, producing an energy-minimized structure in terms of folding free energy (ΔG). The lower (more negative) the ΔG, the more stable the structure.
-
-Check energy before and after repair — you should observe a decrease:
-```bash
-grep Total repair/repair_2XWRA_noHOH_model0_checked/FoldXrun.log
-```
-
-### 2) Mutation phase
-FoldX performs mutagenesis via the BuildModel function. Each residue in the poslist is mutated to every residue type specified in mutation_list.txt. Results are saved in the `mutations/` folder and aggregated in `results/`.
-
-By default, MutateX runs 5 replicates per mutation to account for rotamer sampling variability. This can be changed with `-n`.
-
-Extract final ΔΔG values into a CSV:
-```bash
-ddg2excel -p 2XWRA_noHOH.pdb -l mutation_list.txt -q poslist.txt \
-  -d results/mutation_ddgs/2XWRA_noHOH_model0_checked_Repair/ -F csv
-```
-
-Output is `energies.csv` — one row per mutation site, one column per mutant residue type. ΔΔG = ΔGmut − ΔGwt. Positive values indicate destabilisation.
-
-### Useful options
-- `-n` — number of runs per mutation (default: 5)
-- `-C deep` — recommended for large scans to save disk space
-- `-c` — compress the mutations folder to `mutations.tar.gz`
-- `-p` — number of CPU cores to use
-
+- `energies.csv` — ΔΔG values for all mutations  
+- Plots in `analysis/` show the distribution of stability changes and highlight residues most sensitive to mutation.  

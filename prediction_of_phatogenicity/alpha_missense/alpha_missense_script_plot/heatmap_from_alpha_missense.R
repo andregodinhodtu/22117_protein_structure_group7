@@ -158,7 +158,7 @@ plot_am_heatmap <- function(csv_path,
 
 # 1) All residues from the CSV
 
-path <- "alpha_missense/raw_heatmap_data/AF-Q16611-F1-aa-substitutions.csv"
+path <- "prediction_of_phatogenicity/alpha_missense/raw_heatmap_data/AF-Q16611-F1-aa-substitutions.csv"
 plot_am_heatmap(path)
 
 # 2) Only the 12 BRCA2 sites from the project report

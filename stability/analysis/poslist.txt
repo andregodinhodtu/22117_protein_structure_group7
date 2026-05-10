@@ -11,3 +11,5 @@ LA131
 FA134 
 GA135 
 YA136 
+
+# input residues that you want
