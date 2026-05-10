@@ -1,9 +1,11 @@
 stability/mutatex_stability/results/
 interaction/mutatex_binding
-MD_analyses/
+MD_analyses/atlas_data
 ensemble_work/
 
 .Rproj.user
 .Rproj
+.RData
+.Rhistory
 
 
