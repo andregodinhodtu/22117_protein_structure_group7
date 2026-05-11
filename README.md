@@ -1,6 +1,15 @@
 # Protein Structure Analysis Project – Group 7
 
-This repository contains the analysis of BAK1 protein variants, including stability, solvent accessibility, binding interactions, and structural modeling.
+This project was developed as part of the course **22117: Protein Structure and Computational Biology (Spring 2026)** by students of Group 7.  
+
+It focuses on the analysis of **BAK1 protein variants**, including their **stability, solvent accessibility, binding interactions, and structural modeling**.  
+
+**Authors:**  
+- **André Godinho** (s25370)  
+- **Louis Page** (s25372)  
+- **Veronica Miscu** (s215159)  
+- **Maxence Marbouty** (s253730)  
+- **Emma Jinschek** (s253599)  
 
 ---
 
