@@ -1,5 +1,7 @@
 stability/mutatex_stability/results/
-interaction/mutatex_binding
+interaction/mutatex_binding/complementary_mutateX_run/
+interaction/mutatex_binding/priority_mutateX_run/
+interaction/mutatex_binding/full_scan_ddgs/
 MD_analyses/atlas_data
 ensemble_work/
 
