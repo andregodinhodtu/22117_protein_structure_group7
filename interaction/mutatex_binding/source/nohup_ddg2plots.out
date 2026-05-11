@@ -1,0 +1,5 @@
+nohup: ignoring input
+/home/ctools/protein_structure_course/lib/python3.12/site-packages/Bio/PDB/PDBParser.py:388: PDBConstructionWarning: Ignoring unrecognized record 'END' at line 2630
+  warnings.warn(
+/home/ctools/protein_structure_course/lib/python3.12/site-packages/Bio/PDB/PDBParser.py:388: PDBConstructionWarning: Ignoring unrecognized record 'END' at line 2630
+  warnings.warn(
